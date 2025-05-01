@@ -1,17 +1,13 @@
 import streamlit as st
 import speech_recognition as sr
-from pydub import AudioSegment
-from pydub.utils import which
 import os
 import tempfile
+import wave
+import audioread
 
-# Set FFmpeg path explicitly (optional if FFmpeg is in PATH)
-AudioSegment.converter = which("ffmpeg")
-AudioSegment.ffprobe = which("ffprobe")
+st.title("🎙️ Speech Recognition System")
 
-st.title("🎙️ Speech-to-Text System")
-
-uploaded_file = st.file_uploader("Upload an audio file", type=["wav", "mp3", "flac"])
+uploaded_file = st.file_uploader("Upload an audio file", type=["wav", "mp3", "flac", "m4a", "mpeg"])
 
 if uploaded_file is not None:
     # Create a temporary file to save uploaded audio
@@ -19,21 +15,23 @@ if uploaded_file is not None:
         temp_audio.write(uploaded_file.read())
         temp_audio_path = temp_audio.name
 
-    # Prepare output WAV path
-    temp_wav_path = temp_audio_path + ".wav"
-
     try:
-        # Convert to WAV if necessary
+        # Check file extension and handle accordingly
         file_ext = os.path.splitext(uploaded_file.name)[1].lower()
 
-        if file_ext == ".mp3":
-            audio = AudioSegment.from_file(temp_audio_path, format="mp3")
-            audio.export(temp_wav_path, format="wav")
-        elif file_ext == ".flac":
-            audio = AudioSegment.from_file(temp_audio_path, format="flac")
-            audio.export(temp_wav_path, format="wav")
-        elif file_ext == ".wav":
-            temp_wav_path = temp_audio_path  # No conversion needed
+        if file_ext == ".wav":
+            # Directly process WAV files
+            temp_wav_path = temp_audio_path
+        elif file_ext in [".mp3", ".flac", ".m4a", ".mpeg"]:
+            # Convert MP3, FLAC, M4A, or MPEG to WAV using audioread
+            temp_wav_path = temp_audio_path + ".wav"
+            with audioread.audio_open(temp_audio_path) as audio_file:
+                with wave.open(temp_wav_path, "wb") as wav_file:
+                    wav_file.setnchannels(audio_file.channels)
+                    wav_file.setsampwidth(2)  # Assuming 16-bit audio
+                    wav_file.setframerate(audio_file.samplerate)
+                    for buffer in audio_file:
+                        wav_file.writeframes(buffer)
         else:
             st.error("Unsupported file type.")
             st.stop()
@@ -64,6 +62,6 @@ if uploaded_file is not None:
                 except Exception as e:
                     st.warning(f"Couldn't delete temp file: {e}")
 
-st.markdown("###  Example Usage:")
-st.markdown("1. Upload a short audio clip (WAV, MP3, or FLAC).")
+st.markdown("### Example Usage:")
+st.markdown("1. Upload a short audio clip (WAV, MP3, FLAC, M4A, or MPEG).")
 st.markdown("2. The app will transcribe and display the text.")
