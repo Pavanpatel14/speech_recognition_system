@@ -4,6 +4,10 @@ A simple **Streamlit-based web application** that allows users to upload an audi
 
 ---
 
+#  Screenshots
+
+<img width="493" alt="Image" src="https://github.com/user-attachments/assets/5e8002bd-4d84-425f-9308-e297ce4b5fb2" />
+
 ## Features
 
 - Upload and process multiple audio formats
