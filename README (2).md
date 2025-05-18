@@ -1,12 +1,22 @@
-#  Speech Recognition System
+#  SPEECH RECOGNITION SYSTEM
 
-A simple **Streamlit-based web application** that allows users to upload an audio file (in `.wav`, `.mp3`, `.flac`, `.m4a`, or `.mpeg` format) and returns a **text transcription** using **Google Speech Recognition**.
 
----
+*COMPANY*: CODETECH IT SOLUTIONS
 
-#  Screenshots
+*NAME*: PATEL PAVAN
 
-<img width="493" alt="Image" src="https://github.com/user-attachments/assets/5e8002bd-4d84-425f-9308-e297ce4b5fb2" />
+*INTERN ID*: CODF331
+
+*DOMAIN*: FRONT END DEVELOPMENT
+
+*DURATION*: 4-WEEKS
+
+*MENTOR*: NEELA SANTOSH
+
+
+## DESCRIPTION
+   This project involves building a basic Speech-to-Text (STT) system that converts short audio clips into written text using pre-trained models. The system demonstrates the core functionality of automatic speech recognition (ASR), allowing users to input a .wav audio file and receive an accurate textual transcription.
+
 
 ## Features
 
@@ -71,6 +81,10 @@ A simple **Streamlit-based web application** that allows users to upload an audi
 .m4a
 
 .mpeg
+
+## OUTPUT
+
+ <img width="493" alt="Image" src="https://github.com/user-attachments/assets/5e8002bd-4d84-425f-9308-e297ce4b5fb2" />
 
 
 
